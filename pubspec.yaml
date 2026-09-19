@@ -1,0 +1,29 @@
+name: podpisun
+description: Робоча панель для штампів і підписів на PDF.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^2.6.1
+  pdfrx: ^2.2.24
+  file_picker: ^10.3.3
+  path: ^1.9.1
+  desktop_drop: ^0.6.1
+  shared_preferences: ^2.5.3
+  window_manager: ^0.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
