@@ -1,5 +1,6 @@
 #Requires -Version 5.1
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $Root
@@ -25,7 +26,7 @@ Write-Host "==> Flutter Windows release"
 flutter build windows --release
 
 if (-not (Test-Path $Release)) {
-  throw "Не знайдено $Release"
+  throw "Release folder not found: $Release"
 }
 
 $EngineDest = Join-Path $Release "podpisun_engine"
@@ -50,38 +51,22 @@ New-Item -ItemType Directory -Force -Path $Dist | Out-Null
 
 $Iscc = @(
   "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
-  "$env:ProgramFiles\Inno Setup 6\ISCC.exe"
+  "$env:ProgramFiles\Inno Setup 6\ISCC.exe",
+  "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 ) | Where-Object { Test-Path $_ } | Select-Object -First 1
 
 if ($Iscc) {
-  Write-Host "==> Inno Setup"
+  Write-Host "==> Inno Setup (installer)"
   & $Iscc (Join-Path $Root "installer\windows\podpisun.iss")
-  Write-Host "Готово: $(Join-Path $Dist "Pidpysun-$Version-windows-setup.exe")"
+  Write-Host "Done: $(Join-Path $Dist "Pidpysun-$Version-windows-setup.exe")"
+
+  Write-Host "==> One-file portable (double-click to run)"
+  & $Iscc (Join-Path $Root "installer\windows\podpisun_portable.iss")
+  Write-Host "Done: $(Join-Path $Dist "Pidpysun-$Version-windows-portable.exe")"
 } else {
   $Zip = Join-Path $Dist "Pidpysun-$Version-windows.zip"
   if (Test-Path $Zip) { Remove-Item $Zip }
   Compress-Archive -Path (Join-Path $Release "*") -DestinationPath $Zip
-  Write-Host "Inno Setup не знайдено. Зібрано zip: $Zip"
-  Write-Host "Встановіть Inno Setup 6 і запустіть скрипт знову, щоб отримати setup.exe"
+  Write-Host "Inno Setup not found. Zip created: $Zip"
+  Write-Host "Install Inno Setup 6 and re-run this script to get setup.exe / portable.exe"
 }
-
-Write-Host "==> Portable folder"
-$Portable = Join-Path $Dist "Pidpysun-$Version-windows-portable"
-$PortableZip = Join-Path $Dist "Pidpysun-$Version-windows-portable.zip"
-if (Test-Path $Portable) { Remove-Item -Recurse -Force $Portable }
-if (Test-Path $PortableZip) { Remove-Item $PortableZip }
-Copy-Item -Recurse (Join-Path $Release "*") $Portable
-@"
-Підписун — портативна версія
-
-Скопіюйте всю цю теку (не лише podpisun.exe) на флешку.
-Усі печатки лежать у одному файлі pechatky.podpisun (250 МБ) поруч із exe.
-
-Якщо на іншому комп’ютері Підписун уже стоїть — достатньо скопіювати
-лише pechatky.podpisun і покласти його поруч із podpisun.exe.
-
-Додавайте PNG кнопкою «Додати PNG» або перетягуванням у ліву панель.
-"@ | Set-Content -Encoding UTF8 (Join-Path $Portable "ЧИТАЙМЕНЕ.txt")
-Compress-Archive -Path $Portable -DestinationPath $PortableZip
-Write-Host "Готово: $Portable"
-Write-Host "Архів:  $PortableZip"
