@@ -30,8 +30,13 @@ engine/**/__pycache__/
 engine/build/
 engine/dist/
 
-# Installers
-/dist/
+# Installers — keep only tracked release builds under dist/
+/dist/**
+!/dist/README.md
+!/dist/Pidpysun-1.0.0-macos.dmg
+!/dist/Pidpysun-1.0.0-macos-portable.zip
+!/dist/Pidpysun-1.0.0-windows-setup.exe
+!/dist/Pidpysun-1.0.0-windows-portable.zip
 
 # Local portable PNG store used during development
 /portable_data/

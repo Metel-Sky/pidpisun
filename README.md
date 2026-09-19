@@ -20,7 +20,16 @@
 
 ## Завантаження
 
-Див. [Releases](https://github.com/Metel-Sky/pidpisun/releases) — інсталятори / portable для Mac і Windows.
+Готові файли в репозиторії — тека [`dist/`](dist/):
+
+| Файл | Що це |
+|---|---|
+| `Pidpysun-1.0.0-macos.dmg` | інсталятор macOS |
+| `Pidpysun-1.0.0-macos-portable.zip` | portable macOS |
+| `Pidpysun-1.0.0-windows-setup.exe` | інсталятор Windows |
+| `Pidpysun-1.0.0-windows-portable.zip` | portable Windows (exe в архіві) |
+
+Також: [Releases](https://github.com/Metel-Sky/pidpisun/releases).
 
 ## Запуск з коду
 
