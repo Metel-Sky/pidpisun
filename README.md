@@ -1,16 +1,41 @@
-# podpisun
+# Підписун (pidpisun)
 
-A new Flutter project.
+Десктопна програма для **підписів і печаток** на PDF/DOCX. Працює на **macOS** і **Windows** (Flutter UI + Python-рушій для штампування).
 
-## Getting Started
+## Що робить
 
-This project is a starting point for a Flutter application.
+- Відкриває **PDF** і **DOCX** (DOCX конвертується перед роботою)
+- Зліва — файловий менеджер і бібліотека PNG-печаток / підписів
+- Перетягуєте печатку на сторінку документа, крутите, міняєте розмір (мм), прозорість і колір
+- Зберігаєте результат у **новий PDF**
+- Печатки зберігаються в одному портативному файлі `pechatky.podpisun` (зручно носити на флешці разом із програмою)
 
-A few resources to get you started if this is your first Flutter project:
+## Особливості
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Світла / темна тема
+- Закріплені папки в лівій панелі
+- Drag & drop документів і PNG
+- Портативна збірка: exe/app + печатки поруч, без обов’язкової установки
+- Окремий Python engine (PyMuPDF тощо) для надійного накладання штампів
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Завантаження
+
+Див. [Releases](https://github.com/Metel-Sky/pidpisun/releases) — інсталятори / portable для Mac і Windows.
+
+## Запуск з коду
+
+```bash
+# UI
+flutter pub get
+flutter run -d macos   # або windows
+
+# Python-рушій (розробка)
+python3 -m venv engine/.venv
+engine/.venv/bin/pip install -r engine/requirements.txt
+```
+
+Збірка інсталяторів: `tool/package_macos.sh`, `tool/package_windows.ps1`.
+
+## Стек
+
+Flutter · Riverpod · pdfrx · Python (PyMuPDF) · Inno Setup (Windows)
